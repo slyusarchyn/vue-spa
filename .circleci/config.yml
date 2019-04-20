@@ -1,0 +1,38 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: webdevops/php-dev:7.2
+    steps:
+      - checkout
+
+      - save_cache:
+          key: v2-php-vendor-{{ checksum "composer.lock" }}
+          paths:
+            vendor
+      - restore_cache:
+          keys:
+            - v2-php-vendor-{{ checksum "composer.lock" }}
+            - v2-php-vendor-
+
+      - run: composer install
+      - run: vendor/bin/phpunit
+      - run: composer validate --strict
+      - run: vendor/bin/parallel-lint app tests
+
+  security-check:
+    docker:
+      - image: webdevops/php-dev:7.2
+    steps:
+      - checkout
+      - restore_cache:
+        keys:
+          - v2-php-vendor-{{ checksum "composer.lock" }}
+          - v2-php-vendor-
+          - run: composer install
+      - save_cache:
+        key: v2-php-vendor-{{ checksum "composer.lock" }}
+        paths:
+          - vendor
+      - run: composer install
+      - run: vendor/bin/security-checker security:check
