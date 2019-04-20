@@ -37,9 +37,9 @@ jobs:
 
       - run: composer install
       - run: vendor/bin/security-checker security:check
-workflows:
-  version: 2
-  commit:
-    jobs:
-      - build
-      - security-check
+#workflows:
+#  version: 2
+#  commit:
+#    jobs:
+#      - build
+#      - security-check
