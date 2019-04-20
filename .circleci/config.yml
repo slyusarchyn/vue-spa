@@ -25,6 +25,7 @@ jobs:
       - image: webdevops/php-dev:7.2
     steps:
       - checkout
+
       - restore_cache:
         keys:
           - v2-php-vendor-{{ checksum "composer.lock" }}
@@ -34,5 +35,6 @@ jobs:
         key: v2-php-vendor-{{ checksum "composer.lock" }}
         paths:
           - vendor
+
       - run: composer install
       - run: vendor/bin/security-checker security:check
