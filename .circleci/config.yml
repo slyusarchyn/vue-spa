@@ -38,3 +38,18 @@ jobs:
 
       - run: composer install
       - run: vendor/bin/security-checker security:check
+workflows:
+  version: 2
+  commit:
+    jobs:
+      - build
+      - security-check
+  security-check:
+    triggers:
+      - schedule:
+          cron: "30 12 * * *"
+          filters:
+            branches:
+              only: master
+    jobs:
+      - security-check
