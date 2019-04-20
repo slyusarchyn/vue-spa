@@ -26,15 +26,14 @@ jobs:
     steps:
       - checkout
 
-      - restore_cache:
-        keys:
-          - v2-php-vendor-{{ checksum "composer.lock" }}
-          - v2-php-vendor-
-          - run: composer install
       - save_cache:
-        key: v2-php-vendor-{{ checksum "composer.lock" }}
-        paths:
-          - vendor
+          key: v2-php-vendor-{{ checksum "composer.lock" }}
+          paths:
+            vendor
+      - restore_cache:
+          keys:
+            - v2-php-vendor-{{ checksum "composer.lock" }}
+            - v2-php-vendor-
 
       - run: composer install
       - run: vendor/bin/security-checker security:check
