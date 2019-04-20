@@ -44,12 +44,3 @@ workflows:
     jobs:
       - build
       - security-check
-  security-check:
-    triggers:
-      - schedule:
-          cron: "30 12 * * *"
-          filters:
-            branches:
-              only: master
-    jobs:
-      - security-check
