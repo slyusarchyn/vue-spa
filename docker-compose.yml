@@ -19,9 +19,11 @@ services:
     image: mysql:5.7
     command: --explicit_defaults_for_timestamp
     restart: always
+    ports:
+      - 33060:3306
     environment:
       MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: starsmileclub
+      MYSQL_DATABASE: app
       MYSQL_USER: dev
       MYSQL_PASSWORD: password
     volumes:
